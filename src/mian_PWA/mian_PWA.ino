@@ -1,23 +1,33 @@
- #include "DHT.h" 
- #define DHT_PIN 2
- #define SOILMOISTURE_PIN A0
- DHT dht(DHT_PIN,DHT11);
+#include "DHT.h"
+#define DHT_PIN 2
+#define SOILMOISTURE_PIN A0
+DHT dht(DHT_PIN, DHT11);
 
- void setup()  
+void setup()
+{  
+  initiateSerial();
+  setupPins();
+ }
+
+ void loop()
  {  
+   int soilValue = analogRead(SOILMOISTURE_PIN);
+   displayDataInSerialMonitor(soilValue);  
+   delay(1000);  
+ }
+
+void initiateSerial(){
   delay(1000);
   Serial.begin(115200);  
   Serial.println();
   Serial.print("Plan Watering Automation");
   Serial.print("Initializing..;");
-  pinMode(SOILMOISTURE_PIN, INPUT);
-  pinMode(DHT_PIN, INPUT);
- }  
- void loop()  
- {  
-   int soilValue = analogRead(SOILMOISTURE_PIN);
-   displayDataInSerialMonitor(soilValue);  
-   delay(1000);  
+}
+
+ void setupPins()
+ {
+   pinMode(SOILMOISTURE_PIN, INPUT);
+   pinMode(DHT_PIN, INPUT);
  }
 
 void displayDataInSerialMonitor(int soilValue)
